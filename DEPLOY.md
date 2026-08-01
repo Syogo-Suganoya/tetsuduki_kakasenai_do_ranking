@@ -21,7 +21,7 @@
 ## 手順1: Cloudflareアカウントの確認とCLIログイン（約3分）
 
 1. 付与されたCloudflareアカウントで https://dash.cloudflare.com にログインできることを確認
-2. このディレクトリ（`tokyo_hack/16_tetsuduki_kakasenai_do_ranking`）でCLIにログインする
+2. このディレクトリ（`tetsuduki_kakasenai_do_ranking`）でCLIにログインする
 
    ```bash
    npx wrangler login
@@ -63,7 +63,23 @@ npm run cf:deploy
 
 > Worker名（`kakasenai-do-ranking`）を変更したい場合は、[`wrangler.jsonc`](wrangler.jsonc) の `name` と `services[0].service` の両方を同じ値に書き換えてから再デプロイしてください（自己参照バインディングの名前がWorker名と一致している必要があります）。
 
-## 手順5（任意）: カスタムドメイン設定
+## 手順5: GitHub ActionsによるCD設定（約5分）
+
+[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) を用意してあります。`main` へのpush（および手動実行）で、Lint・型チェックを通過した場合のみ Cloudflare Workers へ自動デプロイします。
+
+有効化するには、GitHubリポジトリに以下のシークレットを登録してください（Settings → Secrets and variables → Actions → New repository secret）。
+
+| シークレット名 | 取得方法 |
+| :--- | :--- |
+| `CLOUDFLARE_API_TOKEN` | Cloudflareダッシュボード → 右上アイコン → 「Profile」→「API Tokens」→「Create Token」→ テンプレート **Edit Cloudflare Workers** を使用 |
+
+デプロイ先のアカウントは [`wrangler.jsonc`](wrangler.jsonc) の `account_id` で指定しているため、`CLOUDFLARE_ACCOUNT_ID` の登録は不要です。
+
+ワークフローは `production` という [GitHub Environment](https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/manage-environments) を参照します。Environmentを作成していない場合はそのまま実行されますが、作成して承認レビュアーを設定すると、デプロイ前に手動承認を挟めます。
+
+> ビルド時に練馬区オープンデータAPIへの通信が発生するため、API側の障害時はCDも失敗します。その場合はワークフローを再実行してください。
+
+## 手順6（任意）: カスタムドメイン設定
 
 1. Cloudflareダッシュボードで対象のWorkerを開く
 2. 「Settings」→「Domains & Routes」→「Add」からカスタムドメインを追加
