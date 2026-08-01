@@ -47,6 +47,10 @@
 | データ取得 | Next.js の `fetch` によるサーバーサイド取得（1日キャッシュ、[`src/lib/tokyoOpenData.ts`](./src/lib/tokyoOpenData.ts)） |
 | スコアリング | ルールベースの重みづけ加重合計（[`src/lib/scoring.ts`](./src/lib/scoring.ts)） |
 
+## アーキテクチャ
+
+![アーキテクチャ図](./docs/architecture.png)
+
 ## 開発
 
 開発環境のセットアップ・コマンド・既知の注意事項は [CONTRIBUTING.md](./CONTRIBUTING.md) を参照してください。
