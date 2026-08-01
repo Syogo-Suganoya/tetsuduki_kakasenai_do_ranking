@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+:root {
+  /* クエストパーチメント（羊皮紙）モード */
+  --background: #efe6cf;
+  --surface: #faf3e2;
+  --surface-2: #f1e6c8;
+  --foreground: #2b2318;
+  --ink-secondary: #6d5c3c;
+  --ink-muted: #9c8b64;
+  --border-soft: rgba(43, 35, 24, 0.16);
+  --border-strong: rgba(43, 35, 24, 0.32);
+
+  --gold: #b3820a;
+  --teal: #1f9a6a;
+  --violet: #6c4fd1;
+  --slate: #8a7a52;
+  --crimson: #c23f34;
+
+  --rank-s: var(--gold);
+  --rank-a: var(--teal);
+  --rank-b: var(--violet);
+  --rank-c: var(--slate);
+  --rank-d: var(--crimson);
+
+  --status-good: var(--teal);
+  --status-warning: var(--gold);
+  --status-serious: #c96a2e;
+  --status-critical: var(--crimson);
+
+  --cat-child: var(--teal);
+  --cat-resident: var(--violet);
+  --cat-welfare: var(--gold);
+  --cat-other: var(--slate);
+
+  --chart-1: var(--violet);
+  --chart-2: var(--teal);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-rounded), var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-dot), var(--font-rounded);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* 夜戦モード（バトルメニュー） */
+    --background: #120f1e;
+    --surface: #1e1832;
+    --surface-2: #2a2244;
+    --foreground: #f4eeff;
+    --ink-secondary: #b9acdb;
+    --ink-muted: #8577a8;
+    --border-soft: rgba(255, 255, 255, 0.12);
+    --border-strong: rgba(255, 255, 255, 0.24);
+
+    --gold: #f0b93d;
+    --teal: #37d99b;
+    --violet: #a389ff;
+    --slate: #9a8fc2;
+    --crimson: #ef6259;
+
+    --status-serious: #ef9152;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  background-image: radial-gradient(
+    circle at 50% -10%,
+    color-mix(in srgb, var(--violet) 10%, transparent),
+    transparent 55%
+  );
+  background-attachment: fixed;
+}
+
+.rpg-panel {
+  position: relative;
+  border-radius: 14px;
+  border: 2px solid var(--border-strong);
+  background: var(--surface);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 3px 0 rgba(0, 0, 0, 0.12);
+}
+
+.rpg-select-marker::before {
+  content: "▶";
+  display: inline-block;
+  color: var(--gold);
+  margin-right: 0.35em;
+  font-size: 0.75em;
+  opacity: 0;
+  transform: translateX(-2px);
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+}
+
+.rpg-select-marker[data-active="true"]::before {
+  opacity: 1;
+  transform: translateX(0);
+}
